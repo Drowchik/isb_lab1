@@ -1,4 +1,5 @@
 from enum import Enum
+import json
 
 ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 
@@ -8,7 +9,7 @@ class Mode(Enum):
     DECRYPT = 2
 
 
-def main(file_name: str, mode: Mode, res_nume: str) -> None:
+def main(file_name: str, mode: Mode, res_nume: str, path_js: str, shift: int = 3) -> None:
     """ 
         The main function that calls everything you need according to the entered parameters
 
@@ -18,8 +19,9 @@ def main(file_name: str, mode: Mode, res_nume: str) -> None:
         res_nume (str): the resulting file name
     """
     res = read_file(file_name)
-    text = encryption(res, mode)
+    text = encryption(res, mode, shift)
     write_file(text, res_nume)
+    create_json(path_js, shift)
 
 
 def read_file(name: str) -> str:
@@ -55,7 +57,7 @@ def write_file(document: str, name_file: str) -> None:
         print("Что-то пошло не так")
 
 
-def encryption(document: str, mode: Enum, shift=3) -> str:
+def encryption(document: str, mode: Enum, shift: int) -> str:
     """
         Encrypts or decrypts the received document
     Args:
@@ -82,3 +84,14 @@ def encryption(document: str, mode: Enum, shift=3) -> str:
         return text
     except Exception:
         print("All bad")
+
+
+def create_json(path_json, shift: int):
+    my_dict = {}
+    for i in range(len(ALPHABET)):
+        my_dict[ALPHABET[i]] = ALPHABET[(i+shift) % len(ALPHABET)]
+    try:
+        with open(path_json, "w", encoding="utf-8") as f:
+            json.dump(my_dict, f, ensure_ascii=False, indent=1)
+    except FileNotFoundError:
+        print("Что-то пошло не так, невозможно открыть данный файл")
