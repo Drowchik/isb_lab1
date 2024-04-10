@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+
 from collections import Counter
 from typing import Dict
 
@@ -59,6 +60,7 @@ def decryption(path_res: str, path: str, text: str) -> str:
     for i in text:
         res_text += key.get(i, '*')
     return res_text
+    
     
 def main(path_res: str, path: str, path_key: str) -> None:
     """

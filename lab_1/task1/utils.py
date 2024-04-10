@@ -1,15 +1,16 @@
 import json
 import os
 import sys
+
 from enum import Enum
+
+from constants import ALPHABET
 
 project_directory = os.path.abspath(
     os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(project_directory)
 
 from general_function import read_file, write_file
-
-ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
 
 
 class Mode(Enum):
