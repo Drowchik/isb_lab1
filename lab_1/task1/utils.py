@@ -86,7 +86,13 @@ def encryption(document: str, mode: Enum, shift: int) -> str:
         print("All bad")
 
 
-def create_json(path_json, shift: int):
+def create_json(path_json: str, shift: int):
+    """
+        create json file (dict, key) for text
+    Args:
+        path_json (_type_): path file
+        shift (int): shift for text
+    """
     my_dict = {}
     for i in range(len(ALPHABET)):
         my_dict[ALPHABET[i]] = ALPHABET[(i+shift) % len(ALPHABET)]
