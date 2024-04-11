@@ -5,12 +5,12 @@ import json
 from collections import Counter
 from typing import Dict
 
-
 project_directory = os.path.abspath(
     os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(project_directory)
 
-from general_function import read_file, write_file
+from general_function import read_file, read_json_dict, write_file
+from constants import path_js
 
 
 def auxiliary_function(text: str) -> None:
@@ -28,22 +28,6 @@ def auxiliary_function(text: str) -> None:
         f"Список отсортированных по длине слов разделённых пробелами: {words_in_text}")
 
 
-def read_json_dict(path: str) -> Dict:
-    """ 
-        read json file
-    Args:
-        path (str): the path for the json file
-
-    Returns:
-        Dict: keys
-    """
-    try:
-        with open(path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("Невозможно открыть файл.")
-
-
 def decryption(path_res: str, path: str, text: str) -> str:
     """
         decrypts the text by the key
@@ -55,22 +39,18 @@ def decryption(path_res: str, path: str, text: str) -> str:
     Returns:
         str: result_text
     """
-    key = read_json_dict(path)
-    res_text = ""
-    for i in text:
-        res_text += key.get(i, '*')
-    return res_text
-    
-    
-def main(path_res: str, path: str, path_key: str) -> None:
-    """
-        The main function for calling the required task.
+    try:
+        key = read_json_dict(path)
+        res_text = ""
+        for i in text:
+            res_text += key.get(i, '*')
+        return res_text
+    except FileNotFoundError:
+        print("Что-то пошло не так")
 
-    Args:
-        path_res (str): the path for the result text
-        path (str): the path for the text
-        path_key (str): the path for the key
-    """
-    text = read_file(path)
-    text = decryption(path_res, path_key, text)
-    write_file(text, path_res)
+
+if __name__ == "__main__":
+    path = read_json_dict(path_js)
+    text = read_file(path["cod2"])
+    text = decryption(path["res_text2"], path["key_for_code"], text)
+    write_file(text, path["res_text2"])

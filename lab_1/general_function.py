@@ -1,3 +1,8 @@
+import json
+
+from typing import Dict
+
+
 def read_file(name: str) -> str:
     """ 
         This function reads text from the file for further processing
@@ -29,3 +34,19 @@ def write_file(document: str, name_file: str) -> None:
             return
     except IOError:
         print("Что-то пошло не так")
+
+
+def read_json_dict(path: str) -> Dict:
+    """ 
+        read json file
+    Args:
+        path (str): the path for the json file
+
+    Returns:
+        Dict: keys
+    """
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("Невозможно открыть файл.")

@@ -4,36 +4,19 @@ import sys
 
 from enum import Enum
 
-from constants import ALPHABET
-
 project_directory = os.path.abspath(
     os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(project_directory)
 
-from general_function import read_file, write_file
-
+from constants import ALPHABET, path_js
+from general_function import read_file, read_json_dict, write_file
 
 class Mode(Enum):
     ENCRYPT = 1
     DECRYPT = 2
 
 
-def main(file_name: str, mode: Mode, res_nume: str, path_js: str, shift: int = 3) -> None:
-    """ 
-        The main function that calls everything you need according to the entered parameters
-
-    Args:
-        file_name (str): path document 
-        mode (Mode): decryption or encryption
-        res_nume (str): the resulting file name
-    """
-    res = read_file(file_name)
-    text = encryption(res, mode, shift)
-    write_file(text, res_nume)
-    create_json(path_js, shift)
-
-
-def encryption(document: str, mode: Enum, shift: int) -> str:
+def encryption(document: str, mode: Enum, shift: int = 3) -> str:
     """
         Encrypts or decrypts the received document
     Args:
@@ -62,7 +45,7 @@ def encryption(document: str, mode: Enum, shift: int) -> str:
         print("All bad")
 
 
-def create_json(path_json: str, shift: int):
+def create_json(path_json: str, shift: int = 3):
     """
         create json file (dict, key) for text
     Args:
@@ -77,3 +60,11 @@ def create_json(path_json: str, shift: int):
             json.dump(my_dict, f, ensure_ascii=False, indent=1)
     except FileNotFoundError:
         print("Что-то пошло не так, невозможно открыть данный файл")
+
+
+if __name__ == "__main__":
+    dict_path = read_json_dict(path_js)
+    res = read_file(dict_path["source_text1"])
+    text = encryption(res, Mode.ENCRYPT)
+    write_file(text, dict_path["text1_decrypt"])
+    create_json(dict_path["json_file1"])

@@ -1,0 +1,8 @@
+{
+    "text1_decrypt": "task1/data_task1/res_text.txt",
+    "source_text1": "task1/data_task1/source_text.txt",
+    "json_file1": "task1/data_task1/json_file.json",
+    "res_text2": "task2/data_task2/res.txt",
+    "cod2": "task2/data_task2/cod1.txt",
+    "key_for_code": "task2/data_task2/key_for_code.json"
+}
