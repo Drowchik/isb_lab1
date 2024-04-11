@@ -54,3 +54,4 @@ if __name__ == "__main__":
     text = read_file(path["cod2"])
     text = decryption(path["res_text2"], path["key_for_code"], text)
     write_file(text, path["res_text2"])
+

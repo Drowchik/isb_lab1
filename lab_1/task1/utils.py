@@ -68,3 +68,4 @@ if __name__ == "__main__":
     text = encryption(res, Mode.ENCRYPT)
     write_file(text, dict_path["text1_decrypt"])
     create_json(dict_path["json_file1"])
+
