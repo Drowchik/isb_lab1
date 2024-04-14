@@ -1,2 +1,2 @@
 ALPHABET = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-path_js = "paths.json"
+PATH = "paths.json"

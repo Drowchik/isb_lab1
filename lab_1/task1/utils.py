@@ -8,7 +8,7 @@ project_directory = os.path.abspath(
     os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(project_directory)
 
-from constants import ALPHABET, path_js
+from constants import ALPHABET
 from general_function import read_file, read_json_dict, write_file
 
 class Mode(Enum):
@@ -42,7 +42,7 @@ def encryption(document: str, mode: Enum, shift: int = 3) -> str:
 
         return text
     except Exception:
-        print("All bad")
+        print("Что-то пошло не так в функции: encryption")
 
 
 def create_json(path_json: str, shift: int = 3):
@@ -60,12 +60,4 @@ def create_json(path_json: str, shift: int = 3):
             json.dump(my_dict, f, ensure_ascii=False, indent=1)
     except FileNotFoundError:
         print("Что-то пошло не так, невозможно открыть данный файл")
-
-
-if __name__ == "__main__":
-    dict_path = read_json_dict(path_js)
-    res = read_file(dict_path["source_text1"])
-    text = encryption(res, Mode.ENCRYPT)
-    write_file(text, dict_path["text1_decrypt"])
-    create_json(dict_path["json_file1"])
 
