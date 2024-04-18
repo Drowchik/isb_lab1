@@ -1,4 +1,5 @@
 {
     "rand_c++": "generate\\gen_int_c++.txt",
-    "rand_java": "generate\\gen_int_java.txt"
+    "rand_java": "generate\\gen_int_java.txt",
+    "result_file": "result_file.json"
 }

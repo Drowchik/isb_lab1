@@ -1,6 +1,9 @@
 from math import erfc, sqrt
-from constans import PATH
-from auxiliary_function import read_file, read_json_dict, write_file
+
+from scipy.special import gammainc
+
+from constans import PATH, PI, M
+from auxiliary_function import read_file, read_json_dict, write_file, write_json_dict
 
 
 def frequency_bitwise_test(mas: str) -> float:
@@ -53,15 +56,41 @@ def longest_sequence(mas: str) -> float:
     Returns:
         float: the result of calculations
     """
-    pass
+    count_blocks = len(mas)//M
+    blocks = []
+    for i in range(count_blocks):
+        blocks.append(mas[i*8:(i+1)*8])
+    count_max_one = []
+    v = []
+    for block in blocks:
+        max_one = 0
+        one_now = 0
+        for i in block:
+            if i == "1":
+                one_now += 1
+            else:
+                max_one = max(one_now, max_one)
+                one_now = 0
+        count_max_one.append(max(one_now, max_one))
+    v = []
+    v.append(count_max_one.count(0) + count_max_one.count(1))
+    v.append(count_max_one.count(2))
+    v.append(count_max_one.count(3))
+    v.append(len(count_max_one) - v[0] - v[1] - v[2])
+    x = sum([(v[i]-16*PI[i])**2/(16*PI[i]) for i in range(len(v))])
+    return gammainc(3/2, x/2)
 
 
 if __name__ == "__main__":
     paths = read_json_dict(PATH)
     gen_c = read_file(paths["rand_c++"])
-    print(gen_c, gen_c.count("0"))
     gen_java = read_file(paths["rand_java"])
-    print(frequency_bitwise_test(gen_c),
-          frequency_bitwise_test(gen_java), sep="\n")
-    print(consecutive_bits(gen_c),
-          consecutive_bits(gen_java), sep="\n")
+    dict_result = {}
+    dict_result["frequency_bitwise_test C++"] = frequency_bitwise_test(gen_c)
+    dict_result["frequency_bitwise_test java"] = frequency_bitwise_test(
+        gen_java)
+    dict_result["consecutive_bits C++"] = consecutive_bits(gen_c)
+    dict_result["consecutive_bits java"] = consecutive_bits(gen_java)
+    dict_result["longest_sequence C++"] = longest_sequence(gen_c)
+    dict_result["longest_sequence java"] = longest_sequence(gen_java)
+    write_json_dict(paths["result_file"], dict_result)

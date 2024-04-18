@@ -50,3 +50,19 @@ def read_json_dict(path: str) -> Dict:
             return json.load(f)
     except FileNotFoundError:
         print("Невозможно открыть файл.")
+
+
+def write_json_dict(path: str, result: dict) -> None:
+    """ 
+        write json file
+    Args:
+        path (str): the path for the json file
+
+    Returns:
+        Dict: keys
+    """
+    try:
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(result, f)
+    except FileNotFoundError:
+        print("Невозможно открыть файл.")
