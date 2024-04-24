@@ -1,5 +1,4 @@
 from math import erfc, sqrt
-
 from scipy.special import gammainc
 
 from constans import PATH, PI, M
@@ -42,7 +41,9 @@ def consecutive_bits(mas: str) -> float:
         for i in range(len(mas)-1):
             if not (mas[i] == mas[i+1]):
                 v += 1
-        return erfc(abs(v-2*len(mas)*fraction*(1-fraction))/(2*sqrt(2*len(mas))*fraction*(1-fraction)))
+
+        return erfc(abs(v - 2 * len(mas) * fraction * (1 - fraction))
+                    / (2 * sqrt(2 * len(mas)) * fraction * (1 - fraction)))
     return 0
 
 
@@ -93,4 +94,6 @@ if __name__ == "__main__":
     dict_result["consecutive_bits java"] = consecutive_bits(gen_java)
     dict_result["longest_sequence C++"] = longest_sequence(gen_c)
     dict_result["longest_sequence java"] = longest_sequence(gen_java)
+    dict_result["rand_c++"] = gen_c
+    dict_result["rand_java"] = gen_java
     write_json_dict(paths["result_file"], dict_result)
